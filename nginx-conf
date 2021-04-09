@@ -1,0 +1,24 @@
+user www-data www-data;
+worker_processes 2;
+error_log /var/log/nginx/error.log debug;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    
+    server {
+        listen 80;
+        server_name localhost;
+
+        location ~ \.mp4$ {
+            root /mnt/data/;
+            mp4;
+            mp4_buffer_size 4M;
+            mp4_max_buffer_size 10M;
+        }
+    }
+}
