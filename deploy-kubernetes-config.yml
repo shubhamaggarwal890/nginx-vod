@@ -1,0 +1,20 @@
+---
+- name: Deploy VOD NFV on Kubernetes
+  hosts: all
+  tasks:
+    - name: Run minikube status comamnd
+      shell: pwd
+    - name: Setting Ingress from configuration file
+      k8s:
+        state: present
+        src: deploy-kubernetes/nginx-ingress.yml
+    - name: Setting Service from configuration file
+      k8s:
+        state: present
+        src: deploy-kubernetes/server-cluster-service.yml
+    - name: Setting Deployment from configuration file
+      k8s:
+        state: present
+        src: deploy-kubernetes/server-deployment.yml
+    
+  
