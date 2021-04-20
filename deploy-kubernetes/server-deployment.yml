@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      volumes:
+        - name: nginx-storage
+          hostPath:
+            path: "/data"
+      containers:
+        - name: server
+          image: shubhamaggarwal890/nginx-vod:v1
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: "/mnt/data"
+              name: nginx-storage
