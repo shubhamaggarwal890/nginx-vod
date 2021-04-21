@@ -2,21 +2,22 @@
 - name: Deploy VOD NFV on Kubernetes
   hosts: all
   tasks:
-    - name: Run minikube status comamnd
-      shell: pwd
-      register: playbook_path_output
-    - debug: var=playbook_path_output.stdout
+    # - name: Run minikube status comamnd
+    #   shell: minikube status
+    #   register: minikube_status
+    # - debug:
+    #     msg: "{{ minikube_status.stdout }}"
     - name: Setting Ingress from configuration file
       k8s:
         state: present
-        src: deploy-kubernetes/nginx-ingress.yml
+        src: "{{ lookup('env', 'PWD') }}/deploy-kubernetes/nginx-ingress.yml"
     - name: Setting Service from configuration file
       k8s:
         state: present
-        src: deploy-kubernetes/server-cluster-service.yml
+        src: "{{ lookup('env', 'PWD') }}/deploy-kubernetes/server-cluster-service.yml"
     - name: Setting Deployment from configuration file
       k8s:
         state: present
-        src: deploy-kubernetes/server-deployment.yml
+        src: "{{ lookup('env', 'PWD') }}/deploy-kubernetes/server-deployment.yml"
     
   
