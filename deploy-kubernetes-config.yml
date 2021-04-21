@@ -10,14 +10,14 @@
     - name: Setting Ingress from configuration file
       k8s:
         state: present
-        src: "{{ lookup('env', 'workspace') }}/deploy-kubernetes/nginx-ingress.yml"
+        src: "{{ lookup('env', 'WORKSPACE') }}/deploy-kubernetes/nginx-ingress.yml"
     - name: Setting Service from configuration file
       k8s:
         state: present
-        src: "{{ lookup('env', 'workspace') }}/deploy-kubernetes/server-cluster-service.yml"
+        src: "{{ lookup('env', 'WORKSPACE') }}/deploy-kubernetes/server-cluster-service.yml"
     - name: Setting Deployment from configuration file
       k8s:
         state: present
-        src: "{{ lookup('env', 'workspace') }}/deploy-kubernetes/server-deployment.yml"
+        src: "{{ lookup('env', 'WORKSPACE') }}/deploy-kubernetes/server-deployment.yml"
     
   
