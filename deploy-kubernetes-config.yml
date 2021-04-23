@@ -2,11 +2,11 @@
 - name: Deploy VOD NFV on Kubernetes
   hosts: all
   tasks:
-    # - name: Run minikube status comamnd
-    #   shell: minikube status
-    #   register: minikube_status
-    # - debug:
-    #     msg: "{{ minikube_status.stdout }}"
+    - name: Run minikube status comamnd
+      shell: minikube status
+      register: minikube_status
+    - debug:
+        msg: "{{ minikube_status.stdout }}"
     - name: Setting Ingress from configuration file
       k8s:
         state: present
