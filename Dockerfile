@@ -1,7 +1,7 @@
 FROM debian
 LABEL maintainer="Shubham <shubhamaggarwal890@gmail.com>"
 ADD https://nginx.org/download/nginx-1.20.2.tar.gz ./
-RUN tar -xzf ./nginx-1.20.2.tar.gz \ && rm nginx-1.20.2.tar.gz
+RUN tar -xvf nginx-1.20.2.tar.gz && rm nginx-1.20.2.tar.gz
 RUN apt-get update && apt-get install -y \ 
     build-essential \
     libpcre3 \
