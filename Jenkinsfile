@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        dockerNFV = "shubhamaggarwal890/nfv-vod:v1"
+        dockerNFV = "shubhamaggarwal890/nfv-vod"
         dockerImage = ""
     }
     agent any
@@ -13,7 +13,7 @@ pipeline {
         stage('Containerize NFV module'){
             steps{
                 script {
-                    dockerImage = docker.build dockerNFV + ':latest'
+                    dockerImage = docker.build dockerNFV + ':v1'
                 }
             }
         }
