@@ -1,4 +1,8 @@
 pipeline {
+    environment {
+        dockerNFV = "shubhamaggarwal890/nfv-vod:v1"
+        dockerImage = ""
+    }
     agent any
     stages {
         stage('NFV module - SCM Checkout'){
@@ -9,7 +13,7 @@ pipeline {
         stage('Containerize NFV module'){
             steps{
                 script {
-                    dockerImage = docker.build dockerCalculator + ':latest'
+                    dockerImage = docker.build dockerNFV + ':latest'
                 }
             }
         }
