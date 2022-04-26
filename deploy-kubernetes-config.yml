@@ -4,7 +4,7 @@
   tasks:
     - name: Copy all the configuration files to the target
       copy:
-        src: "deploy-kubernetes"
+        src: "{{ lookup('env', 'WORKSPACE') }}/deploy-kubernetes"
         dest: "~/"
     - name: Applying Kubernetes configuration file
       command: kubectl apply -f deploy-kubernetes/
