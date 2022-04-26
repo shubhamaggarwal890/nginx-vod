@@ -2,17 +2,75 @@
 - name: Deploy VOD NFV on Kubernetes
   hosts: all
   tasks:
-    - name: Setting Ingress from configuration file
+    - name: Setting Ingress from the inline definition
       k8s:
         state: present
-        src: "{{ lookup('env', 'WORKSPACE') }}/deploy-kubernetes/nginx-ingress.yml"
-    - name: Setting Service from configuration file
+        definition:
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: ingress-service
+            namespace: default
+            annotations:
+              nginx.ingress.kubernetes.io/rewrite-target: /
+          spec:
+            rules:
+              - http:
+                  paths:
+                    - path: /?(.*)
+                      pathType: Prefix
+                      backend:
+                        service:
+                          name: server-cluster-ip-service
+                          port:
+                            number: 80
+    - name: Setting Service from the inline definition
       k8s:
         state: present
-        src: "{{ lookup('env', 'WORKSPACE') }}/deploy-kubernetes/server-cluster-service.yml"
-    - name: Setting Deployment from configuration file
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: server-cluster-ip-service
+            namespace: default
+          spec:
+            type: ClusterIP
+            selector:
+              component: server
+            ports:
+              - port: 80
+                targetPort: 80
+    - name: Setting Deployment from the inline definition
       k8s:
         state: present
-        src: "{{ lookup('env', 'WORKSPACE') }}/deploy-kubernetes/server-deployment.yml"
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: server-deployment
+            namespace: default
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                component: server
+            template:
+              metadata:
+                labels:
+                  component: server
+              spec:
+                volumes:
+                  - name: nginx-storage
+                    hostPath:
+                      path: "/videos/"
+                      type: DirectoryOrCreate
+                containers:
+                  - name: server
+                    image: shubhamaggarwal890/nginx-vod:v1
+                    ports:
+                      - containerPort: 80
+                    volumeMounts:
+                      - mountPath: "/mnt/data"
+                        name: nginx-storage
     
   
