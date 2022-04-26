@@ -1,1 +1,1 @@
-localhost ansible_user=shubham
+192.168.122.31 ansible_user=shubham

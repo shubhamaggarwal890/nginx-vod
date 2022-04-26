@@ -8,5 +8,5 @@ spec:
   selector:
     component: server
   ports:
-    - port: 7596
+    - port: 80
       targetPort: 80

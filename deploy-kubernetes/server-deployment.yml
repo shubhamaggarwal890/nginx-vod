@@ -16,7 +16,8 @@ spec:
       volumes:
         - name: nginx-storage
           hostPath:
-            path: "/data"
+            path: "/videos/"
+            type: DirectoryOrCreate
       containers:
         - name: server
           image: shubhamaggarwal890/nginx-vod:v1

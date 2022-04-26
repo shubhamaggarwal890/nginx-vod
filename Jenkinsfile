@@ -26,5 +26,10 @@ pipeline {
                 }
             }
         }
+        stage('Deploying modules through Ansible Playbook'){
+            steps{
+                ansiblePlaybook disableHostKeyChecking: true, installation: 'Ansible', inventory: 'hosts', playbook: 'deploy-kubernetes-config.yml'
+            }
+        }
     }
 }
